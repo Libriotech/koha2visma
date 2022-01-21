@@ -1,0 +1,39 @@
+=pod
+
+=encoding UTF-8
+
+=head1 koha2visma
+
+This script generates a file that can be used in the Visma accounting system,
+to generate invoices for overdue loans.
+
+=head1 USAGE
+
+This script has the following parameters :
+
+ Mandatory parameters:
+    --artnr - article number - 13 characters code
+    --category - patron categories to include (repeatable)
+    --faktgrp - 2 characters code
+    --konto - code
+    --municipalcode - 5 characters code
+    --person-orgnr - extended patron attribute code in which person/orgnr will be
+      retrieved
+    --rutincode - 3 characters code
+
+ Optional parameters:
+    --min-overdues - number of days before including the account line
+    -h --help: this message
+    -v --verbose: provides verbose output to STDOUT
+
+=head1 FUNDED BY
+
+Development of this script was funded by:
+
+=over 4
+
+=item * Alingsås public library
+
+=back
+
+=cut

@@ -154,9 +154,16 @@ foreach my $patron (@patrons) {
         next if ($item->itemlost == 3);
         if ($minoverdues) {
             my $dtdate = dt_from_string($checkout->date_due, 'sql');
-            my $age = $dtdate->delta_days(DateTime->now());
-            $age = $age->in_units('days');
-            push @selected_checkouts, $checkout if ($age >= $minoverdues);
+            my $dtnow = DateTime->now();
+            my $cmp = DateTime->compare( $dtdate, $dtnow );
+            # Make sure we only proceed with dates in the past, not in the future
+            if ( $cmp == -1 ) {
+                my $age = $dtdate->delta_days($dtnow);
+                $age = $age->in_units('days');
+                if ($age >= $minoverdues) {
+                    push @selected_checkouts, $checkout;
+                }
+            }
         } else {
             push @selected_checkouts, $checkout;
         }

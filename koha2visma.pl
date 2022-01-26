@@ -46,6 +46,7 @@ my $municipalcode   = undef;
 my $personorgnrcode = undef;
 my $rutinkod        = undef;
 
+my $test_mode       = 0;
 my $help            = 0;
 my $verbose         = 0;
 
@@ -58,6 +59,7 @@ GetOptions(
     'min-overdues:s'  => \$minoverdues,
     'person-orgnr:s'  => \$personorgnrcode,
     'rutincode:s'     => \$rutinkod,
+    'testmode'        => \$test_mode,
     'h|help'          => \$help,
     'v|verbose'       => \$verbose,
 );
@@ -78,6 +80,7 @@ This script has the following parameters :
 
  Optional parameters:
     --min-overdues - number of days before including the account line
+    --testmode: do not change the itemlost value of items
     -h --help: this message
     -v --verbose: provides verbose output to STDOUT
 ENDUSAGE
@@ -281,7 +284,9 @@ sub items_hook {
     # Some item processing, for instance:
     # $item->set({ itemnotes => "processed"})->store;
 
-    $item->set({ itemlost => 3 })->store;
+    if ( $test_mode == 0 ) {
+        $item->set({ itemlost => 3 })->store;
+    }
 
 }
 

@@ -162,6 +162,7 @@ foreach my $patron (@patrons) {
                 $age = $age->in_units('days');
                 if ($age >= $minoverdues) {
                     push @selected_checkouts, $checkout;
+                    say STDERR "itemnumber: $checkout->itemnumber, date_due: $checkout->date_due, age: $age" if $verbose;
                 }
             }
         } else {

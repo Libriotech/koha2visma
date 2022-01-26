@@ -154,6 +154,7 @@ foreach my $patron (@patrons) {
 
     while (my $checkout = $checkouts->next) {
         my $item = Koha::Items->find({ itemnumber => $checkout->itemnumber });
+        next unless $item;
         next if ($item->itemlost == 3);
         if ($minoverdues) {
             my $dtdate = dt_from_string($checkout->date_due, 'sql');

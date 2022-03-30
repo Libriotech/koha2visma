@@ -36,7 +36,8 @@ use C4::Log;
 use Getopt::Long;
 use POSIX qw(strftime);
 use Data::Dumper;
-binmode(STDOUT, ":utf8");
+# It looks like binmode causes more severe problems than it fixes
+# binmode(STDOUT, ":utf8");
 
 my $artnr           = undef;
 my @categories      = undef;

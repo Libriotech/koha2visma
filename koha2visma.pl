@@ -153,6 +153,7 @@ if (scalar(@categories > 1)) {
     $patrons = Koha::Patrons->search();
 }
 foreach my $patron ($patrons->next) {
+    say STDERR $patron->borrowernumber if $debug;
     next unless $patron->checkouts->count;
     my $checkouts = $patron->checkouts;
     my @selected_checkouts;

@@ -51,6 +51,7 @@ my $rutinkod        = undef;
 my $test_mode       = 0;
 my $help            = 0;
 my $verbose         = 0;
+my $debug           = 0;
 
 GetOptions(
     'artnr:s'         => \$artnr,
@@ -64,6 +65,7 @@ GetOptions(
     'testmode'        => \$test_mode,
     'h|help'          => \$help,
     'v|verbose'       => \$verbose,
+    'd|debug'         => \$debug,
 );
 my $usage = << 'ENDUSAGE';
 
@@ -85,6 +87,7 @@ This script has the following parameters :
     --testmode: do not change the itemlost value of items
     -h --help: this message
     -v --verbose: provides verbose output to STDOUT
+    -d --debug: even more output to STDOUT
 ENDUSAGE
 
 die $usage if $help;
@@ -169,6 +172,8 @@ foreach my $patron ($patrons->next) {
                 if ($age >= $minoverdues) {
                     push @selected_checkouts, $checkout;
                     say STDERR "itemnumber: " . $checkout->itemnumber . ", date_due: " . $checkout->date_due . " , age: $age" if $verbose;
+                } else {
+                    say STDERR "(itemnumber: " . $checkout->itemnumber . ", date_due: " . $checkout->date_due . " , age: $age)" if $debug;
                 }
             }
         } else {

@@ -154,7 +154,7 @@ if (scalar(@categories > 1)) {
 }
 say STDERR "Found " . $patrons->count . " patrons" if $debug;
 
-foreach my $patron ($patrons->next) {
+while (my $patron = $patrons->next) {
     say STDERR $patron->borrowernumber if $debug;
     next unless $patron->checkouts->count;
     my $checkouts = $patron->checkouts;

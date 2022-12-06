@@ -152,6 +152,8 @@ if (scalar(@categories > 1)) {
 } else {
     $patrons = Koha::Patrons->search();
 }
+say STDERR "Found " . $patrons->count . " patrons" if $debug;
+
 foreach my $patron ($patrons->next) {
     say STDERR $patron->borrowernumber if $debug;
     next unless $patron->checkouts->count;

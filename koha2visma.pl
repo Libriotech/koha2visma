@@ -143,13 +143,13 @@ my $order = 0;
 my $totalitems = 0;
 
 # For each category
-my @patrons;
+my $patrons;
 if (scalar(@categories > 1)) {
-    @patrons = Koha::Patrons->search({ categorycode => \@categories });
+    $patrons = Koha::Patrons->search({ categorycode => \@categories });
 } else {
-    @patrons = Koha::Patrons->search();
+    $patrons = Koha::Patrons->search();
 }
-foreach my $patron (@patrons) {
+foreach my $patron ($patrons->next) {
     next unless $patron->checkouts->count;
     my $checkouts = $patron->checkouts;
     my @selected_checkouts;

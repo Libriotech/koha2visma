@@ -163,7 +163,7 @@ while (my $patron = $patrons->next) {
     while (my $checkout = $checkouts->next) {
         my $item = Koha::Items->find({ itemnumber => $checkout->itemnumber });
         next unless $item;
-        next if ($item->itemlost == 3);
+        next if ($item->itemlost == 3); # FIXME This should probably not be hardcoded?
         if ($minoverdues) {
             my $dtdate = dt_from_string($checkout->date_due, 'sql');
             my $dtnow = DateTime->now();

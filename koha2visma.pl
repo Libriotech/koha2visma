@@ -41,7 +41,7 @@ use Data::Dumper;
 
 my $artnr           = undef;
 my @categories      = undef;
-my @branchcodes     = undef;
+my @branchcodes;
 my $faktgrp         = undef;
 my $konto           = undef;
 my $minoverdues     = undef;

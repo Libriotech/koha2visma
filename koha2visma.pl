@@ -41,6 +41,7 @@ use Data::Dumper;
 
 my $artnr           = undef;
 my @categories      = undef;
+my @branchcodes     = undef;
 my $faktgrp         = undef;
 my $konto           = undef;
 my $minoverdues     = undef;
@@ -56,6 +57,7 @@ my $debug           = 0;
 GetOptions(
     'artnr:s'         => \$artnr,
     'category:s'      => \@categories,
+    'branchcode:s'    => \@branchcodes,
     'faktgrp:s'       => \$faktgrp,
     'konto:s'         => \$konto,
     'municipalcode:s' => \$municipalcode,
@@ -73,8 +75,8 @@ This script generates a file for invoicing overdues & debts.
 
 This script has the following parameters :
  Mandatory parameters:
-    --artnr - article number - 13 characters code
     --category - patron categories to include (repeatable)
+    --artnr - article number - 13 characters code
     --faktgrp - 2 characters code
     --konto - code
     --municipalcode - 5 characters code
@@ -83,6 +85,7 @@ This script has the following parameters :
     --rutincode - 3 characters code
 
  Optional parameters:
+    --branchcode - only include items belonging to this library (repeatable)
     --min-overdues - number of days before including the account line
     --testmode: do not change the itemlost value of items
     -h --help: this message
@@ -163,6 +166,11 @@ while (my $patron = $patrons->next) {
     while (my $checkout = $checkouts->next) {
         my $item = Koha::Items->find({ itemnumber => $checkout->itemnumber });
         next unless $item;
+        # If --branchcode was specified, we should only proceed if the branchcode
+        # of the item is in the list
+        if ( @branchcodes ) {
+            next unless ( grep( /^$item->homebranch$/, @branchcodes );
+        }
         next if ($item->itemlost == 3); # FIXME This should probably not be hardcoded?
         if ($minoverdues) {
             my $dtdate = dt_from_string($checkout->date_due, 'sql');

@@ -23,6 +23,7 @@ This script has the following parameters :
 
  Optional parameters:
     --min-overdues - number of days before including the account line
+    --branchcode - only include items belonging to this library (repeatable)
     -h --help: this message
     -v --verbose: provides verbose output to STDOUT
 

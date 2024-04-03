@@ -169,7 +169,7 @@ while (my $patron = $patrons->next) {
         # If --branchcode was specified, we should only proceed if the branchcode
         # of the item is in the list
         if ( @branchcodes ) {
-            next unless ( grep( /^$item->homebranch$/, @branchcodes );
+            next unless ( grep( /^$item->homebranch$/, @branchcodes ) );
         }
         next if ($item->itemlost == 3); # FIXME This should probably not be hardcoded?
         if ($minoverdues) {

@@ -48,6 +48,7 @@ my $minoverdues     = undef;
 my $municipalcode   = undef;
 my $personorgnrcode = undef;
 my $rutinkod        = undef;
+my $verksamhetcode  = undef;
 
 my $test_mode       = 0;
 my $help            = 0;
@@ -55,19 +56,20 @@ my $verbose         = 0;
 my $debug           = 0;
 
 GetOptions(
-    'artnr:s'         => \$artnr,
-    'category:s'      => \@categories,
-    'branchcode:s'    => \@branchcodes,
-    'faktgrp:s'       => \$faktgrp,
-    'konto:s'         => \$konto,
-    'municipalcode:s' => \$municipalcode,
-    'min-overdues:s'  => \$minoverdues,
-    'person-orgnr:s'  => \$personorgnrcode,
-    'rutincode:s'     => \$rutinkod,
-    'testmode'        => \$test_mode,
-    'h|help'          => \$help,
-    'v|verbose'       => \$verbose,
-    'd|debug'         => \$debug,
+    'artnr:s'          => \$artnr,
+    'category:s'       => \@categories,
+    'branchcode:s'     => \@branchcodes,
+    'faktgrp:s'        => \$faktgrp,
+    'konto:s'          => \$konto,
+    'municipalcode:s'  => \$municipalcode,
+    'min-overdues:s'   => \$minoverdues,
+    'person-orgnr:s'   => \$personorgnrcode,
+    'rutincode:s'      => \$rutinkod,
+    'verksamhetcode:s' => \$verksamhetcode,
+    'testmode'         => \$test_mode,
+    'h|help'           => \$help,
+    'v|verbose'        => \$verbose,
+    'd|debug'          => \$debug,
 );
 my $usage = << 'ENDUSAGE';
 
@@ -83,6 +85,7 @@ This script has the following parameters :
     --person-orgnr - extended patron attribute code in which person/orgnr will be
       retrieved
     --rutincode - 3 characters code
+    --verksamhetcode - 2 characters code
 
  Optional parameters:
     --branchcode - only include items belonging to this library (repeatable)
@@ -107,6 +110,7 @@ die "\n--person-orgnr is missing\n$usage" unless $personorgnrcode;
 die "\n$personorgnrcode is not a valid patron extended attribute code (or there isn't at least one patron with a value for this extended attribute)\n$usage" unless (Koha::Patron::Attributes->count({ code => $personorgnrcode }) >= 1);
 die "\n--rutincode is missing\n$usage" unless $rutinkod;
 die "\n--rutincode length should be 3\n$usage" unless (length $rutinkod == 3);
+die "\n--verksamhetcode is missing\n$usage" unless $verksamhetcode;
 
 cronlogaction();
 
@@ -264,7 +268,7 @@ while (my $patron = $patrons->next) {
         }
         items_hook($item);
 
-        print "50${extftg}${rutinkod}${ordernr}01${radnrcount}${radnrtxt}${fomdat}${tomdat}${artnr}${benamn}${avsernamn}${konto}${kontonamn}";
+        print "50${extftg}${rutinkod}${ordernr}${verksamhetcode}${radnrcount}${radnrtxt}${fomdat}${tomdat}${artnr}${benamn}${avsernamn}${konto}${kontonamn}";
         print "${signantal}${antal}${sort}${avserperiod}${signapris}${apris}${signrabsats}${rabsats}${signbel}${bel}${signmomssats}${momssats}${signmomsbel}";
         print "${momsbel}${omrade}${kategori}${konto100}${filler}\n";
 

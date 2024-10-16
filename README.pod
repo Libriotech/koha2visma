@@ -20,6 +20,7 @@ This script has the following parameters :
     --person-orgnr - extended patron attribute code in which person/orgnr will be
       retrieved
     --rutincode - 3 characters code
+    --verksamhetcode - 2 characters code
 
  Optional parameters:
     --min-overdues - number of days before including the account line
